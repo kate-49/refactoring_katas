@@ -5,7 +5,7 @@ class TennisGame2 {
   }
 
   createPlayer(name) {
-    return {points: 0, name: name, res: ""}
+    return {points: 0, name: name}
   }
 
   getScoreValueForPoint(number) {
@@ -18,38 +18,39 @@ class TennisGame2 {
     return scoreType[number]
   }
 
+  checkIfGameWon(score) {
+    var scoreDiff = Math.abs(this.player1.points - this.player2.points)
+
+    if (scoreDiff == 0 && this.player1.points > 2)
+      return "Deuce";
+
+    if (scoreDiff == 1 && (this.player1.points > 3 || this.player2.points > 3)) {
+      return this.player1.points > this.player2.points ? "Advantage player1" : "Advantage player2"
+    }
+
+    if (scoreDiff >= 2 && (this.player1.points >= 4 || this.player2.points >= 4)) {
+      return this.player1.points > this.player2.points ? "Win for player1" : "Win for player2"
+    }
+    return score
+  }
+
   getScore() {
     var score = "";
 
     if (this.player1.points === this.player2.points) {
-      score = this.getScoreValueForPoint(this.player1.points)
-      score += "-All";  
+      score = this.getScoreValueForPoint(this.player1.points) + "-All";
     } else {
-      this.player1.res = this.getScoreValueForPoint(this.player1.points)
-      this.player2.res = this.getScoreValueForPoint(this.player2.points)
-      score = this.player1.res + "-" + this.player2.res;
+      score = this.getScoreValueForPoint(this.player1.points) + "-" + this.getScoreValueForPoint(this.player2.points);
     }
 
-    var scoreDiff = Math.abs(this.player1.points - this.player2.points)
-
-    if (scoreDiff == 0 && this.player1.points > 2)
-      score = "Deuce";
-
-    if (scoreDiff == 1 && (this.player1.points > 3 || this.player2.points > 3)) {
-      score = this.player1.points > this.player2.points ? "Advantage player1" : "Advantage player2"
-    }
-
-    if (scoreDiff >= 2 && (this.player1.points >= 4 || this.player2.points >= 4)) {
-      score = this.player1.points > this.player2.points ? "Win for player1" : "Win for player2"
-    }
-
-    return score;
+    return this.checkIfGameWon(score)
   };
 
   wonPoint(player) {
-    player === "player1" ? this.player1.points++ : this.player2.points++
+    player === this.player1.name ? this.player1.points++ : this.player2.points++
   };
 }
+
 if (typeof window === "undefined") {
   module.exports = TennisGame2;
 }
