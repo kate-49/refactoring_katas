@@ -54,16 +54,15 @@ func calculateQuality(item *Item) *Item {
 func UpdateQuality(items []*Item) {
 	for i := 0; i < len(items); i++ {
 
-		if items[i].Name != "Aged Brie" && items[i].Name != "Backstage passes to a TAFKAL80ETC concert" && items[i].Name != "Sulfuras, Hand of Ragnaros" {
+		switch {
+		case items[i].Name == "Aged Brie":
+			CalculateAgedBrie(items[i])
+		case items[i].Name == "Backstage passes to a TAFKAL80ETC concert":
+			CalculateBackstagePasses(items[i])
+		case items[i].Name == "Sulfuras, Hand of Ragnaros":
+		default:
 			items[i].SellIn = items[i].SellIn - 1
 			calculateQuality(items[i])
-		} else {
-			if items[i].Name == "Aged Brie" {
-				CalculateAgedBrie(items[i])
-			}
-			if items[i].Name == "Backstage passes to a TAFKAL80ETC concert" {
-				CalculateBackstagePasses(items[i])
-			}
 		}
 	}
 }
