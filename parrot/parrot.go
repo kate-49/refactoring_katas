@@ -31,11 +31,11 @@ type norwegianBlueParrot struct {
 
 func CreateParrot(t parrotType, numberOfCoconuts int, voltage float64, nailed bool) Parrot {
 	switch t {
-	case 1:
+	case TypeEuropean:
 		return europeanParrot{}
-	case 2:
+	case TypeAfrican:
 		return africanParrot{numberOfCoconuts}
-	case 3:
+	case TypeNorwegianBlue:
 		return norwegianBlueParrot{voltage, nailed}
 	}
 	return nil
